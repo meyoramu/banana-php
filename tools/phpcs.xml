@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ruleset name="BANANA-PHP">
+    <description>BANANA-PHP coding standard</description>
+    
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs.cache"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
+    
+    <!-- PSR-12 standard -->
+    <rule ref="PSR12">
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+    </rule>
+    
+    <!-- Additional rules -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.PHP.ForbiddenFunctions"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint"/>
+    
+    <!-- Paths to check -->
+    <file>app</file>
+    <file>tests</file>
+    
+    <!-- Exclude paths -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/storage/*</exclude-pattern>
+    <exclude-pattern>*/bootstrap/cache/*</exclude-pattern>
+</ruleset>
