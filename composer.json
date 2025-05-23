@@ -19,7 +19,7 @@
     "nesbot/carbon": "^2.66",
     "predis/predis": "^2.1",
     "ramsey/uuid": "^4.7",
-    "symfony/console": "*",
+    "symfony/console": "^7.2",
     "symfony/event-dispatcher": "^6.2",
     "symfony/http-foundation": "^6.2",
     "symfony/routing": "^6.2",
