@@ -17,7 +17,6 @@ class Kernel
     public function __construct()
     {
         $this->application = new Application('BANANA-PHP Console', '1.0.0');
-        
         $this->registerCommands();
     }
 
@@ -31,6 +30,7 @@ class Kernel
 
     private function registerCommands(): void
     {
+        // Register commands explicitly with names
         $this->application->add(new MakeController());
         $this->application->add(new MakeModel());
         $this->application->add(new MakeMiddleware());
