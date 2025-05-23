@@ -7,8 +7,7 @@ use Symfony\Component\Console\Application;
 use BananaPHP\Console\Commands\MakeController;
 use BananaPHP\Console\Commands\MakeModel;
 use BananaPHP\Console\Commands\MakeMiddleware;
-use BananaPHP\Console\Commands\MigrateCommand;
-use BananaPHP\Console\Commands\ServeCommand;
+use Symfony\Component\Console\Command\Command;
 
 class Kernel
 {
@@ -20,32 +19,18 @@ class Kernel
         $this->registerCommands();
     }
 
-    public static function postAutoloadDump(): void
-    {
-        if (!file_exists($console = __DIR__.'/../../bin/banana')) {
-            copy(__DIR__.'/../../stubs/console.stub', $console);
-            chmod($console, 0755);
-        }
-    }
-
     private function registerCommands(): void
     {
-        try {
-            $commands = [
-                MakeController::class,
-                MakeModel::class,
-                MakeMiddleware::class,
-                MigrateCommand::class,
-                ServeCommand::class,
-            ];
+        $commands = [
+            new MakeController(),
+            new MakeModel(),
+            new MakeMiddleware(),
+        ];
 
-            foreach ($commands as $command) {
-                if (class_exists($command)) {
-                    $this->application->add(new $command());
-                }
+        foreach ($commands as $command) {
+            if ($command instanceof Command) {
+                $this->application->add($command);
             }
-        } catch (\Throwable $e) {
-            // Silently fail if a command class is missing
         }
     }
 
