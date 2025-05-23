@@ -1,7 +1,41 @@
-composer.phar
+# Dependency directories
 /vendor/
-/ikivuguto/
+/node_modules/
 
-# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
-# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
-# composer.lock
+# Environment files
+.env
+.env.production
+.env.local
+
+# Storage directories
+/storage/app/private/
+/storage/cache/
+/storage/logs/
+/storage/sessions/
+/storage/framework/
+
+# Build directories
+/public/css/
+/public/js/
+/public/assets/
+
+# IDE files
+.idea
+.vscode
+*.swp
+*.swo
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Testing
+/tests/coverage/
+.phpunit.result.cache
+
+# Composer
+composer.phar
+/composer.lock
+
+# Logs
+*.log
