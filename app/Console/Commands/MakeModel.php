@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use RuntimeException;
 
 class MakeModel extends Command
@@ -22,7 +23,7 @@ class MakeModel extends Command
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
-                'The name of the model'
+                'The name of the model (e.g. User)'
             );
     }
 
@@ -32,8 +33,16 @@ class MakeModel extends Command
         $path = $this->getPath($name);
 
         if (file_exists($path)) {
-            $output->writeln("<error>Model already exists at: {$path}</error>");
-            return Command::FAILURE;
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion(
+                "Model {$name} already exists. Overwrite? (y/n) ",
+                false
+            );
+
+            if (!$helper->ask($input, $output, $question)) {
+                $output->writeln('<comment>Operation canceled.</comment>');
+                return Command::SUCCESS;
+            }
         }
 
         $this->ensureDirectoryExists(dirname($path));
@@ -45,8 +54,11 @@ class MakeModel extends Command
             $stub
         );
 
-        $this->createModelFile($path, $stub, $output);
+        if (file_put_contents($path, $stub) === false) {
+            throw new RuntimeException("Failed to create model at: {$path}");
+        }
 
+        $output->writeln("<info>Model created successfully:</info> {$path}");
         return Command::SUCCESS;
     }
 
@@ -65,14 +77,6 @@ class MakeModel extends Command
         if (!is_dir($path) && !mkdir($path, 0755, true) && !is_dir($path)) {
             throw new RuntimeException("Directory {$path} was not created");
         }
-    }
-
-    private function createModelFile(string $path, string $content, OutputInterface $output): void
-    {
-        if (file_put_contents($path, $content) === false) {
-            throw new RuntimeException("Failed to create model at: {$path}");
-        }
-        $output->writeln("<info>Model created successfully:</info> {$path}");
     }
 
     private function getStub(): string
