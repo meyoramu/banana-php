@@ -38,11 +38,11 @@
         "App\\": "app/"
     },
     "files": [
+        "app/helpers.php",
         "app/Helpers/StringHelper.php",
         "app/Helpers/ArrayHelper.php",
         "app/Helpers/DateHelper.php",
-        "app/Helpers/SecurityHelper.php",
-        "app/Services/Http/helpers.php"
+        "app/Helpers/SecurityHelper.php"
     ]
 },
   "autoload-dev": {
