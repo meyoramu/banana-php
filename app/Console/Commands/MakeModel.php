@@ -17,16 +17,12 @@ class MakeModel extends Command
     protected function configure(): void
     {
         $this
+            ->setName(self::$defaultName)
+            ->setDescription(self::$defaultDescription)
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
                 'The name of the model'
-            )
-            ->addOption(
-                'migration',
-                'm',
-                null,
-                'Create a new migration file for the model'
             );
     }
 
@@ -36,34 +32,34 @@ class MakeModel extends Command
         $path = $this->getPath($name);
 
         if (file_exists($path)) {
-            $output->writeln('<error>Model already exists at: '.$path.'</error>');
+            $output->writeln("<error>Model already exists at: {$path}</error>");
             return Command::FAILURE;
         }
 
         if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
+            if (!mkdir(dirname($path), 0755, true)) {
+                throw new RuntimeException("Failed to create directory: " . dirname($path));
+            }
         }
 
         $stub = $this->getStub();
-        $stub = str_replace('{{ class }}', $name, $stub);
+        $stub = str_replace(
+            ['{{ class }}', '{{ table }}'],
+            [$name, strtolower($name) . 's'],
+            $stub
+        );
 
         if (file_put_contents($path, $stub) === false) {
-            throw new RuntimeException('Failed to write model file: '.$path);
+            throw new RuntimeException("Failed to write model file: {$path}");
         }
 
-        $output->writeln('<info>Model created successfully:</info> '.$path);
-
-        if ($input->getOption('migration')) {
-            // TODO: Create migration
-            $output->writeln('<comment>Run migrations with: php bin/banana migrate</comment>');
-        }
-
+        $output->writeln("<info>Model created successfully:</info> {$path}");
         return Command::SUCCESS;
     }
 
     private function getPath(string $name): string
     {
-        return __DIR__.'/../../../app/Models/'.$name.'.php';
+        return __DIR__ . '/../../../app/Models/' . $name . '.php';
     }
 
     private function getStub(): string
@@ -79,6 +75,7 @@ use BananaPHP\Models\BaseModel;
 class {{ class }} extends BaseModel
 {
     protected string $table = '{{ table }}';
+    protected string $primaryKey = 'id';
     protected array $fillable = [];
     protected array $hidden = [];
 }
