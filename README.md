@@ -40,6 +40,25 @@ composer create-project iyoramu/banana-php your-project-name
 | **Templating**   | Blade-like syntax for dynamic views.                                        |
 | **CLI Tools**    | Generate controllers, models, and migrations via command line.              |
 
+- Modern PHP 8.1+ architecture
+- MVC pattern implementation
+- Powerful routing system
+- Database abstraction layer
+- Authentication (JWT & Session)
+- Middleware pipeline
+- Console commands
+- Built-in testing support
+- Docker ready
+
+---
+
+## Requirements
+
+- PHP 8.1 or higher
+- Composer
+- MySQL 5.7+ / PostgreSQL / SQLite
+- Redis (optional)`
+
 ---
 
 ## 📚 Quick Start  
