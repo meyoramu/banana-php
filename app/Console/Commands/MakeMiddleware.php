@@ -16,11 +16,14 @@ class MakeMiddleware extends Command
 
     protected function configure(): void
     {
-        $this->addArgument(
-            'name',
-            InputArgument::REQUIRED,
-            'The name of the middleware'
-        );
+        $this
+            ->setName(self::$defaultName) // Explicitly set the name
+            ->setDescription(self::$defaultDescription)
+            ->addArgument(
+                'name',
+                InputArgument::REQUIRED,
+                'The name of the middleware'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -33,9 +36,7 @@ class MakeMiddleware extends Command
             return Command::FAILURE;
         }
 
-        if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
-        }
+        $this->ensureDirectoryExists(dirname($path));
 
         $stub = $this->getStub();
         $stub = str_replace('{{ class }}', $name, $stub);
@@ -51,6 +52,13 @@ class MakeMiddleware extends Command
     private function getPath(string $name): string
     {
         return __DIR__.'/../../../app/Middleware/'.$name.'.php';
+    }
+
+    private function ensureDirectoryExists(string $path): void
+    {
+        if (!is_dir($path) && !mkdir($path, 0755, true) && !is_dir($path)) {
+            throw new RuntimeException("Directory {$path} was not created");
+        }
     }
 
     private function getStub(): string
@@ -70,11 +78,8 @@ class {{ class }} implements MiddlewareInterface
     public function handle(Request $request, callable $next): Response
     {
         // Perform actions before passing to next middleware
-        
         $response = $next($request);
-        
         // Perform actions after getting response
-        
         return $response;
     }
 }
