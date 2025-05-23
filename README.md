@@ -6,12 +6,12 @@
 
 ```
 
-composer create-project iyoramu/banana-php myapp
+composer create-project iyoramu/banana-php mytomato
 
 ```
 
 ## Author
 
-IRUTABYOSE Yoramu (Petit)  
+IRUTABYOSE Yoramu
 📧 yirutabyose@gmail.com
 ```
