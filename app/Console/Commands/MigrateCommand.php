@@ -16,53 +16,11 @@ class MigrateCommand extends Command
     protected static $defaultName = 'migrate';
     protected static $defaultDescription = 'Run the database migrations';
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function configure(): void
     {
-        $pdo = Connection::getInstance();
-        $migrationsPath = __DIR__.'/../../../database/migrations';
-        
-        try {
-            // Ensure migrations table exists
-            $this->ensureMigrationsTableExists($pdo);
-
-            // Get already run migrations
-            $runMigrations = $this->getRunMigrations($pdo);
-
-            // Process migration files
-            $files = glob($migrationsPath.'/*.php');
-            $newMigrations = 0;
-
-            foreach ($files as $file) {
-                $migrationName = basename($file, '.php');
-
-                if (!in_array($migrationName, $runMigrations, true)) {
-                    require_once $file;
-                    $className = $this->getClassNameFromFileName($migrationName);
-
-                    if (class_exists($className)) {
-                        $migration = new $className();
-                        if ($migration instanceof Migration) {
-                            $output->writeln("<comment>Migrating:</comment> {$migrationName}");
-                            $migration->up();
-                            $this->recordMigration($pdo, $migrationName);
-                            $output->writeln("<info>Migrated:</info> {$migrationName}");
-                            $newMigrations++;
-                        }
-                    }
-                }
-            }
-
-            if ($newMigrations === 0) {
-                $output->writeln('<info>Nothing to migrate</info>');
-            } else {
-                $output->writeln("<info>Migrated {$newMigrations} migrations successfully</info>");
-            }
-
-            return Command::SUCCESS;
-        } catch (\Throwable $e) {
-            $output->writeln("<error>Migration failed: {$e->getMessage()}</error>");
-            return Command::FAILURE;
-        }
+        $this
+            ->setName(self::$defaultName)
+            ->setDescription(self::$defaultDescription);
     }
 
     private function ensureMigrationsTableExists(PDO $pdo): void
