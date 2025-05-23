@@ -11,16 +11,22 @@ use RuntimeException;
 
 class MakeController extends Command
 {
+    // The command name (for console usage)
     protected static $defaultName = 'make:controller';
+
+    // The command description
     protected static $defaultDescription = 'Create a new controller class';
 
     protected function configure(): void
     {
-        $this->addArgument(
-            'name',
-            InputArgument::REQUIRED,
-            'The name of the controller (e.g. "User" or "Admin/User")'
-        );
+        $this
+            ->setName(self::$defaultName) // Explicitly set the name
+            ->setDescription(self::$defaultDescription)
+            ->addArgument(
+                'name',
+                InputArgument::REQUIRED,
+                'The name of the controller (e.g. "User" or "Admin/User")'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -42,7 +48,11 @@ class MakeController extends Command
         }
 
         $stub = $this->getStub();
-        $stub = str_replace(['{{ namespace }}', '{{ class }}'], [$namespace, $className], $stub);
+        $stub = str_replace(
+            ['{{ namespace }}', '{{ class }}'], 
+            [$namespace, $className], 
+            $stub
+        );
 
         if (file_put_contents($path, $stub) === false) {
             throw new RuntimeException('Failed to write controller file: '.$path);
@@ -90,13 +100,24 @@ use BananaPHP\Services\Http\Request;
 use BananaPHP\Services\Http\Response;
 use BananaPHP\Services\View\View;
 
-class {{ class }} extends \BananaPHP\Controllers\BaseController
+class {{ class }}
 {
+    protected Request $request;
+    protected Response $response;
+    protected View $view;
+
+    public function __construct(Request $request, Response $response, View $view)
+    {
+        $this->request = $request;
+        $this->response = $response;
+        $this->view = $view;
+    }
+
     // Example action method
     public function index(): Response
     {
-        return $this->view('template_name', [
-            'data' => 'example'
+        return $this->view->render('welcome', [
+            'message' => 'Hello from your new controller!'
         ]);
     }
 }
