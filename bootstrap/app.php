@@ -7,7 +7,13 @@ use BananaPHP\Providers\DatabaseServiceProvider;
 use BananaPHP\Providers\EventServiceProvider;
 use DI\ContainerBuilder;
 
-require_once __DIR__.'/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
+
+// Load environment variables
+if (file_exists(__DIR__.'/../.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+    $dotenv->safeLoad();
+}
 
 // Initialize container builder
 $containerBuilder = new ContainerBuilder();
