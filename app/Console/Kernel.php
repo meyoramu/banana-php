@@ -4,9 +4,6 @@ declare(strict_types=1);
 namespace BananaPHP\Console;
 
 use Symfony\Component\Console\Application;
-use BananaPHP\Console\Commands\MakeController;
-use BananaPHP\Console\Commands\MakeModel;
-use BananaPHP\Console\Commands\MakeMiddleware;
 use Symfony\Component\Console\Command\Command;
 
 class Kernel
@@ -39,9 +36,20 @@ STUB;
 
     private function registerCommands(): void
     {
-        $this->application->add(new MakeController());
-        $this->application->add(new MakeModel());
-        $this->application->add(new MakeMiddleware());
+        $commands = [
+            \BananaPHP\Console\Commands\MakeController::class,
+            \BananaPHP\Console\Commands\MakeModel::class,
+            \BananaPHP\Console\Commands\MakeMiddleware::class,
+        ];
+
+        foreach ($commands as $commandClass) {
+            if (class_exists($commandClass)) {
+                $command = new $commandClass();
+                if ($command instanceof Command) {
+                    $this->application->add($command);
+                }
+            }
+        }
     }
 
     public function handle(): int
