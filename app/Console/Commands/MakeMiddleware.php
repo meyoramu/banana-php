@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use RuntimeException;
 
 class MakeMiddleware extends Command
@@ -17,12 +18,12 @@ class MakeMiddleware extends Command
     protected function configure(): void
     {
         $this
-            ->setName(self::$defaultName) // Explicitly set the name
+            ->setName(self::$defaultName)
             ->setDescription(self::$defaultDescription)
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
-                'The name of the middleware'
+                'The name of the middleware (e.g. AuthMiddleware)'
             );
     }
 
@@ -32,8 +33,16 @@ class MakeMiddleware extends Command
         $path = $this->getPath($name);
 
         if (file_exists($path)) {
-            $output->writeln('<error>Middleware already exists at: '.$path.'</error>');
-            return Command::FAILURE;
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion(
+                "Middleware {$name} already exists. Overwrite? (y/n) ",
+                false
+            );
+
+            if (!$helper->ask($input, $output, $question)) {
+                $output->writeln('<comment>Operation canceled.</comment>');
+                return Command::SUCCESS;
+            }
         }
 
         $this->ensureDirectoryExists(dirname($path));
@@ -42,10 +51,10 @@ class MakeMiddleware extends Command
         $stub = str_replace('{{ class }}', $name, $stub);
 
         if (file_put_contents($path, $stub) === false) {
-            throw new RuntimeException('Failed to write middleware file: '.$path);
+            throw new RuntimeException("Failed to create middleware at: {$path}");
         }
 
-        $output->writeln('<info>Middleware created successfully:</info> '.$path);
+        $output->writeln("<info>Middleware created successfully:</info> {$path}");
         return Command::SUCCESS;
     }
 
