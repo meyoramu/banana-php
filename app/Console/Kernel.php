@@ -16,24 +16,6 @@ class Kernel
         $this->registerCommands();
     }
 
-    public static function postAutoloadDump(): void
-    {
-        $consolePath = __DIR__.'/../../bin/banana';
-        if (!file_exists($consolePath)) {
-            $stub = <<<'STUB'
-#!/usr/bin/env php
-<?php
-require __DIR__.'/../vendor/autoload.php';
-require __DIR__.'/../bootstrap/app.php';
-
-$kernel = new BananaPHP\Console\Kernel();
-exit($kernel->handle());
-STUB;
-            file_put_contents($consolePath, $stub);
-            chmod($consolePath, 0755);
-        }
-    }
-
     private function registerCommands(): void
     {
         $commands = [
