@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: banana-php-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - banana-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: banana-php-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      - banana-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: banana-php-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: banana_php
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+      MYSQL_USER: banana
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - banana-network
+
+  redis:
+    image: redis:alpine
+    container_name: banana-php-redis
+    restart: unless-stopped
+    networks:
+      - banana-network
+
+networks:
+  banana-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
