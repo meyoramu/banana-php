@@ -69,10 +69,18 @@ BANANA-PHP includes:
 ## 👨‍💻 Author  
 **IRUTABYOSE Yoramu**  
 - 📧 [yirutabyose@gmail.com](mailto:yirutabyose@gmail.com)  
+<<<<<<< HEAD
 - 📞 [+250 781 014 782](tel:+250781014782)  
 - 💻 [SourceForge Project](https://sourceforge.net/projects/banana-php/) 
+=======
+- 💻 [Contribute on SourceForge](https://sourceforge.net/projects/banana-php/)  
+>>>>>>> 4b485579895912d9098478de7bb8a248ef5377bf
 
 ---
 
 ## 📜 License  
+<<<<<<< HEAD
 MIT © 2025 — Free to use, modify, and share!
+=======
+MIT © 2025 — Free to use, modify, and share!
+>>>>>>> 4b485579895912d9098478de7bb8a248ef5377bf
