@@ -5,7 +5,6 @@ namespace BananaPHP\Providers;
 
 use DI\Container;
 use BananaPHP\Services\Database\QueryBuilder;
-use BananaPHP\Services\Database\Connection;
 
 class DatabaseServiceProvider implements ServiceProviderInterface
 {
