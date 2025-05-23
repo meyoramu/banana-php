@@ -36,30 +36,43 @@ class MakeModel extends Command
             return Command::FAILURE;
         }
 
-        if (!is_dir(dirname($path))) {
-            if (!mkdir(dirname($path), 0755, true)) {
-                throw new RuntimeException("Failed to create directory: " . dirname($path));
-            }
-        }
+        $this->ensureDirectoryExists(dirname($path));
 
         $stub = $this->getStub();
         $stub = str_replace(
             ['{{ class }}', '{{ table }}'],
-            [$name, strtolower($name) . 's'],
+            [$name, $this->getTableName($name)],
             $stub
         );
 
-        if (file_put_contents($path, $stub) === false) {
-            throw new RuntimeException("Failed to write model file: {$path}");
-        }
+        $this->createModelFile($path, $stub, $output);
 
-        $output->writeln("<info>Model created successfully:</info> {$path}");
         return Command::SUCCESS;
     }
 
     private function getPath(string $name): string
     {
-        return __DIR__ . '/../../../app/Models/' . $name . '.php';
+        return __DIR__.'/../../../app/Models/'.$name.'.php';
+    }
+
+    private function getTableName(string $name): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $name)).'s';
+    }
+
+    private function ensureDirectoryExists(string $path): void
+    {
+        if (!is_dir($path) && !mkdir($path, 0755, true) && !is_dir($path)) {
+            throw new RuntimeException("Directory {$path} was not created");
+        }
+    }
+
+    private function createModelFile(string $path, string $content, OutputInterface $output): void
+    {
+        if (file_put_contents($path, $content) === false) {
+            throw new RuntimeException("Failed to create model at: {$path}");
+        }
+        $output->writeln("<info>Model created successfully:</info> {$path}");
     }
 
     private function getStub(): string
