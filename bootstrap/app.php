@@ -5,10 +5,20 @@ use BananaPHP\Providers\AppServiceProvider;
 use BananaPHP\Providers\AuthServiceProvider;
 use BananaPHP\Providers\DatabaseServiceProvider;
 use BananaPHP\Providers\EventServiceProvider;
+use DI\ContainerBuilder;
 
 require_once __DIR__.'/autoload.php';
 
-$container = new \DI\Container();
+// Initialize container builder
+$containerBuilder = new ContainerBuilder();
+
+// Set up container configurations
+$containerBuilder->addDefinitions([
+    'config' => require __DIR__.'/../config/app.php',
+]);
+
+// Build the container
+$container = $containerBuilder->build();
 
 // Register service providers
 $providers = [
@@ -19,7 +29,7 @@ $providers = [
 ];
 
 foreach ($providers as $provider) {
-    (new $provider($container))->register();
+    $container->call([$provider, 'register']);
 }
 
 return $container;
