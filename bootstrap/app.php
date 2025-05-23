@@ -17,10 +17,8 @@ if (file_exists(__DIR__.'/../.env')) {
 
 // Initialize container builder
 $containerBuilder = new ContainerBuilder();
-$containerBuilder->useAutowiring(true);
-$containerBuilder->useAnnotations(false);
 
-// Add definitions
+// Set up container configurations
 $containerBuilder->addDefinitions([
     'config' => require __DIR__.'/../config/app.php',
 ]);
