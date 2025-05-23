@@ -17,6 +17,7 @@
     "guzzlehttp/guzzle": "^7.5",
     "monolog/monolog": "^3.3",
     "nesbot/carbon": "^2.66",
+    "php-di/php-di": "^7.0",
     "predis/predis": "^2.1",
     "ramsey/uuid": "^4.7",
     "symfony/console": "^7.2",
