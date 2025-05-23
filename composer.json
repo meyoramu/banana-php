@@ -33,17 +33,18 @@
       "squizlabs/php_codesniffer": "^3.7"
   },
   "autoload": {
-      "psr-4": {
-          "BananaPHP\\": "app/",
-          "App\\": "app/"
-      },
-      "files": [
-          "app/Helpers/StringHelper.php",
-          "app/Helpers/ArrayHelper.php",
-          "app/Helpers/DateHelper.php",
-          "app/Helpers/SecurityHelper.php"
-      ]
-  },
+    "psr-4": {
+        "BananaPHP\\": "app/",
+        "App\\": "app/"
+    },
+    "files": [
+        "app/Helpers/StringHelper.php",
+        "app/Helpers/ArrayHelper.php",
+        "app/Helpers/DateHelper.php",
+        "app/Helpers/SecurityHelper.php",
+        "app/Services/Http/helpers.php"
+    ]
+},
   "autoload-dev": {
       "psr-4": {
           "Tests\\": "tests/"
