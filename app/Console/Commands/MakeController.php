@@ -7,16 +7,20 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use RuntimeException;
 
 class MakeController extends Command
 {
     protected static $defaultName = 'make:controller';
+    protected static $defaultDescription = 'Create a new controller class';
 
     protected function configure(): void
     {
-        $this
-            ->setDescription('Create a new controller class')
-            ->addArgument('name', InputArgument::REQUIRED, 'The name of the controller');
+        $this->addArgument(
+            'name',
+            InputArgument::REQUIRED,
+            'The name of the controller (e.g. "User" or "Admin/User")'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -27,20 +31,24 @@ class MakeController extends Command
         $path = $this->getPath($name);
 
         if (file_exists($path)) {
-            $output->writeln("<error>Controller already exists!</error>");
+            $output->writeln('<error>Controller already exists at: '.$path.'</error>');
             return Command::FAILURE;
         }
 
-        $stub = file_get_contents(__DIR__.'/../../../stubs/controller.stub');
-        $stub = str_replace(['{{ namespace }}', '{{ class }}'], [$namespace, $className], $stub);
-
         if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0777, true);
+            if (!mkdir(dirname($path), 0755, true)) {
+                throw new RuntimeException('Failed to create directory: '.dirname($path));
+            }
         }
 
-        file_put_contents($path, $stub);
+        $stub = $this->getStub();
+        $stub = str_replace(['{{ namespace }}', '{{ class }}'], [$namespace, $className], $stub);
 
-        $output->writeln("<info>Controller created successfully: $path</info>");
+        if (file_put_contents($path, $stub) === false) {
+            throw new RuntimeException('Failed to write controller file: '.$path);
+        }
+
+        $output->writeln('<info>Controller created successfully:</info> '.$path);
         return Command::SUCCESS;
     }
 
@@ -57,7 +65,7 @@ class MakeController extends Command
         
         if (str_contains($name, '/')) {
             $subNamespace = str_replace('/', '\\', substr($name, 0, strrpos($name, '/')));
-            return $baseNamespace . '\\' . $subNamespace;
+            return $baseNamespace.'\\'.$subNamespace;
         }
         
         return $baseNamespace;
@@ -67,6 +75,31 @@ class MakeController extends Command
     {
         $basePath = __DIR__.'/../../../app/Controllers/';
         $name = str_replace('\\', '/', $name);
-        return $basePath . $name . '.php';
+        return $basePath.$name.'.php';
+    }
+
+    private function getStub(): string
+    {
+        return <<<'STUB'
+<?php
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use BananaPHP\Services\Http\Request;
+use BananaPHP\Services\Http\Response;
+use BananaPHP\Services\View\View;
+
+class {{ class }} extends \BananaPHP\Controllers\BaseController
+{
+    // Example action method
+    public function index(): Response
+    {
+        return $this->view('template_name', [
+            'data' => 'example'
+        ]);
+    }
+}
+STUB;
     }
 }
