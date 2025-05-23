@@ -98,9 +98,9 @@ banana-php/
 │   └── cors.php
 ├── database/
 │   ├── migrations/
-│   │   ├── 2024_01_01_000000_create_users_table.php
-│   │   ├── 2024_01_01_000001_create_roles_table.php
-│   │   └── 2024_01_01_000002_create_user_roles_table.php
+│   │   ├── 2025_23_05_000000_create_users_table.php
+│   │   ├── 2025_23_05_000001_create_roles_table.php
+│   │   └── 2025_23_05_000002_create_user_roles_table.php
 │   ├── seeders/
 │   │   ├── DatabaseSeeder.php
 │   │   ├── UserSeeder.php
