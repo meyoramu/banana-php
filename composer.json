@@ -51,14 +51,10 @@
       }
   },
   "scripts": {
-      "post-autoload-dump": [
-          "BananaPHP\\Console\\Kernel::postAutoloadDump"
-      ],
-      "test": "phpunit",
-      "analyse": "phpstan analyse",
-      "lint": "phpcs --standard=PSR12 app/ tests/",
-      "fix": "phpcbf --standard=PSR12 app/ tests/"
-  },
+    "post-autoload-dump": [
+        "BananaPHP\\Console\\Kernel::postAutoloadDump"
+    ]
+},
   "config": {
       "optimize-autoloader": true,
       "preferred-install": "dist",
