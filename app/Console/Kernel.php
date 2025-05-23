@@ -19,19 +19,29 @@ class Kernel
         $this->registerCommands();
     }
 
+    public static function postAutoloadDump(): void
+    {
+        $consolePath = __DIR__.'/../../bin/banana';
+        if (!file_exists($consolePath)) {
+            $stub = <<<'STUB'
+#!/usr/bin/env php
+<?php
+require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../bootstrap/app.php';
+
+$kernel = new BananaPHP\Console\Kernel();
+exit($kernel->handle());
+STUB;
+            file_put_contents($consolePath, $stub);
+            chmod($consolePath, 0755);
+        }
+    }
+
     private function registerCommands(): void
     {
-        $commands = [
-            new MakeController(),
-            new MakeModel(),
-            new MakeMiddleware(),
-        ];
-
-        foreach ($commands as $command) {
-            if ($command instanceof Command) {
-                $this->application->add($command);
-            }
-        }
+        $this->application->add(new MakeController());
+        $this->application->add(new MakeModel());
+        $this->application->add(new MakeMiddleware());
     }
 
     public function handle(): int
