@@ -40,6 +40,8 @@ STUB;
             \BananaPHP\Console\Commands\MakeController::class,
             \BananaPHP\Console\Commands\MakeModel::class,
             \BananaPHP\Console\Commands\MakeMiddleware::class,
+            \BananaPHP\Console\Commands\MakeMigration::class,
+            \BananaPHP\Console\Commands\MigrateCommand::class,
         ];
 
         foreach ($commands as $commandClass) {
