@@ -5,32 +5,34 @@ namespace BananaPHP\Providers;
 
 use DI\Container;
 use BananaPHP\Services\View\View;
-use BananaPHP\Services\Router\Router;
 use BananaPHP\Services\Http\Request;
 use BananaPHP\Services\Http\Response;
 use BananaPHP\Services\Database\Connection;
-use Psr\Container\ContainerInterface;
+use BananaPHP\Services\Http\Router;
 
 class AppServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $container): void
     {
-        $container->set(ContainerInterface::class, $container);
-        
+        // Bind Request
         $container->set(Request::class, function () {
             return Request::createFromGlobals();
         });
-        
-        $container->set(Response::class, Response::class);
-        
+
+        // Bind Response
+        $container->set(Response::class, \DI\create(Response::class));
+
+        // Bind View
         $container->set(View::class, function () {
             return new View(__DIR__.'/../../resources/views');
         });
-        
+
+        // Bind Database Connection
         $container->set(Connection::class, function () {
             return Connection::getInstance();
         });
-        
+
+        // Bind Router
         $container->set(Router::class, function () use ($container) {
             $webRoutes = require __DIR__.'/../../routes/web.php';
             $apiRoutes = require __DIR__.'/../../routes/api.php';
