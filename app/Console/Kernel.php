@@ -30,12 +30,23 @@ class Kernel
 
     private function registerCommands(): void
     {
-        // Register commands explicitly with names
-        $this->application->add(new MakeController());
-        $this->application->add(new MakeModel());
-        $this->application->add(new MakeMiddleware());
-        $this->application->add(new MigrateCommand());
-        $this->application->add(new ServeCommand());
+        try {
+            $commands = [
+                MakeController::class,
+                MakeModel::class,
+                MakeMiddleware::class,
+                MigrateCommand::class,
+                ServeCommand::class,
+            ];
+
+            foreach ($commands as $command) {
+                if (class_exists($command)) {
+                    $this->application->add(new $command());
+                }
+            }
+        } catch (\Throwable $e) {
+            // Silently fail if a command class is missing
+        }
     }
 
     public function handle(): int
