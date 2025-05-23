@@ -5,7 +5,9 @@ declare(strict_types=1);
 use BananaPHP\Console\Kernel;
 
 require __DIR__.'/../vendor/autoload.php';
-require __DIR__.'/../bootstrap/app.php';
+
+// Store the container in globals for easy access
+$GLOBALS['container'] = require __DIR__.'/../bootstrap/app.php';
 
 $kernel = new Kernel();
 exit($kernel->handle());
