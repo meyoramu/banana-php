@@ -24,7 +24,7 @@ Whether you’re building a small blog or a large-scale app, BANANA-PHP scales w
 ## 📦 Installation  
 
 ```bash
-composer create-project iyoramu/banana-php your-project-name
+composer create-project meyoramu/banana-php your-project-name
 ```  
 
 **Requirements**: PHP ≥ 8.1, Composer, and a web server (Apache/Nginx).  
