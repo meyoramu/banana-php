@@ -3,35 +3,34 @@ namespace BananaPHP;
 
 class Installer
 {
+    // This runs automatically after installation
     public static function postInstall()
     {
-        // Make banana executable
+        // On Linux/Mac: make the banana file executable
         if (PHP_OS_FAMILY !== 'Windows') {
-            chmod(__DIR__.'/../../banana', 0755);
+            @chmod(__DIR__.'/../../banana', 0755); // 0755 = read/write/execute permissions
         }
         
-        // Windows-specific symlink creation
+        // Special setup for Windows
         if (PHP_OS_FAMILY === 'Windows') {
-            self::createWindowsSymlink();
+            self::setupWindows();
         }
-        
-        echo "\n\033[32mBananaPHP is ready!\033[0m";
-        echo "\nTry running: \033[33mbanana migrate\033[0m\n";
     }
 
-    private static function createWindowsSymlink()
+    // Special setup for Windows computers
+    private static function setupWindows()
     {
+        // Find where the banana file is
         $target = realpath(__DIR__.'/../../banana');
-        $link = getenv('APPDATA').'/Composer/vendor/bin/banana';
         
-        if (file_exists($link)) {
-            @unlink($link);
-        }
+        // Where to put the Windows shortcut
+        $link = getenv('APPDATA').'/Composer/vendor/bin/banana.bat';
         
-        exec("mklink \"{$link}\" \"{$target}\"", $output, $return);
+        // Create a Windows batch file that runs banana with PHP
+        $batContent = "@ECHO OFF\r\n".      // Hide commands
+                      "php \"".$target."\" %*"; // Run banana with PHP
         
-        if ($return !== 0) {
-            copy($target, $link);
-        }
+        // Save the batch file
+        file_put_contents($link, $batContent);
     }
 }
