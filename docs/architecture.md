@@ -75,11 +75,13 @@ banana-php/
 │   │   ├── AuthServiceProvider.php
 │   │   ├── DatabaseServiceProvider.php
 │   │   └── EventServiceProvider.php
-│   └── Helpers/
-│       ├── StringHelper.php
-│       ├── ArrayHelper.php
-│       ├── DateHelper.php
-│       └── SecurityHelper.php
+│   ├── Helpers/
+│   │   ├── StringHelper.php
+│   │   ├── ArrayHelper.php
+│   │   ├── DateHelper.php
+│   │   └── SecurityHelper.php
+│   ├── helpers.php
+│   └── Installer.php
 ├── bootstrap/
 │   ├── app.php
 │   ├── autoload.php
