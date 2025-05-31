@@ -241,4 +241,3 @@ banana-php/
     ├── phpstan.neon
     ├── phpcs.xml
     └── rector.php
-```
