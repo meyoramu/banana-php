@@ -87,7 +87,7 @@ BANANA-PHP includes:
 
 ## 👨‍💻 Author  
 **IRUTABYOSE Yoramu**  
-- 📧 [meyoramu@gmail.com](mailto:meyoramu@gmail.com)  
+- 📧 [iyoramu@gmail.com](mailto:iyoramu@gmail.com)  
 - 📞 [+250 781 014 782](tel:+250781014782)  
 - 💻 [SourceForge Project](https://sourceforge.net/projects/banana-php/) 
 
