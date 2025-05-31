@@ -1,23 +1,27 @@
-Table with descriptions and statuses marked for commands that have `x` (indicating they are unavailable or restricted in some way):  
+# BANANA-PHP Command Reference  
+*(Adaptable Next-Generation Advanced Nimble Architecture PHP)*  
 
-| Commandes         | Description                                                                 | Status          |
-|-------------------|-----------------------------------------------------------------------------|-----------------|
-| make:model        | Creates a new Eloquent model class.                                         | Available       |
-| make:migration    | Creates a new database migration file.                                      | Available       |
-| make:seeder     x | Generates a new database seeder class (unavailable for this context).       | Not Available   |
-| make:factory   x  | Creates a new model factory for database seeding (unavailable).             | Not Available   |
-| make:request   x  | Generates a new form request class for validation (unavailable).            | Not Available   |
-| make:resource   x | Creates a new API resource class (unavailable).                            | Not Available   |
-| make:view       x | Generates a new Blade view file (unavailable).                              | Not Available   |
-| make:auth        x| Scaffolds authentication boilerplate (unavailable).                         | Not Available   |
-| make:middleware   | Creates a new middleware class.                                             | Available       |
-| make:job        x | Generates a new job class for queues (unavailable).                         | Not Available   |
-| make:listener   x | Creates a new event listener class (unavailable).                           | Not Available   |
-| make:event       x| Generates a new event class (unavailable).                                  | Not Available   |
-| make:policy     x | Creates a new authorization policy class (unavailable).                     | Not Available   |
-| make:controller   | Generates a new controller class.                                           | Available       |
-| make:provider  x  | Creates a new service provider class (unavailable).                         | Not Available   |
+| Command            | Description                                                                 | Status          |
+|--------------------|-----------------------------------------------------------------------------|-----------------|
+| `make:model`       | Creates a new **Eloquent-style model** for database interactions.           | ✅ Available    |
+| `make:migration`   | Generates a **database migration** file for schema changes.                 | ✅ Available    |
+| `make:seeder`      | *(RESTRICTED)* Creates a database seeder for dummy data.                    | ❌ Restricted   |
+| `make:factory`     | *(RESTRICTED)* Generates a model factory for testing/scaling data.          | ❌ Restricted   |
+| `make:request`     | *(RESTRICTED)* Creates a **form request** with validation logic.            | ❌ Restricted   |
+| `make:resource`    | *(RESTRICTED)* Generates an **API resource** (JSON transformation layer).   | ❌ Restricted   |
+| `make:view`        | *(RESTRICTED)* Scaffolds a **Blade-compatible view** template.              | ❌ Restricted   |
+| `make:auth`        | *(RESTRICTED)* Installs **authentication boilerplate** (e.g., login/logout).| ❌ Restricted   |
+| `make:middleware`  | Creates a **middleware** class for HTTP request filtering.                  | ✅ Available    |
+| `make:job`         | *(RESTRICTED)* Generates a **queueable job** for async tasks.               | ❌ Restricted   |
+| `make:listener`    | *(RESTRICTED)* Creates an **event listener** for subscribed events.         | ❌ Restricted   |
+| `make:event`       | *(RESTRICTED)* Generates a custom **event** class.                          | ❌ Restricted   |
+| `make:policy`      | *(RESTRICTED)* Creates an **authorization policy** (e.g., user permissions).| ❌ Restricted   |
+| `make:controller`  | Generates a **controller** for application logic/routing.                   | ✅ Available    |
+| `make:provider`    | *(RESTRICTED)* Creates a **service provider** for dependency injection.     | ❌ Restricted   |
 
 ### Key:  
-- **Available**: Command is functional.  
-- **Not Available**: Command is disabled (`x`) or restricted.
+- ✅ **Available**: Ready for use in BANANA-PHP.  
+- ❌ **Restricted**: Disabled by design (see [Framework Philosophy](#) for reasoning).  
+
+> **Note**: Restricted commands may be enabled via **extensions** or **configuration overrides**.  
+> Contribute on [GitHub](https://github.com/your-banana-php-repo) to discuss feature flags!
