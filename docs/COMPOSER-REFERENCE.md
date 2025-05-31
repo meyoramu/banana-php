@@ -27,7 +27,7 @@ graph TD
     {
       "name": "IRUTABYOSE Yoramu",
       "email": "iyoramu@gmail.com",
-      "role": "Lead Architect"
+      "role": "Sole Author"
     }
   ]
 }
