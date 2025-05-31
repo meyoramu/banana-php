@@ -24,4 +24,4 @@
 - ❌ **Restricted**: Disabled by design (see [Framework Philosophy](#) for reasoning).  
 
 > **Note**: Restricted commands may be enabled via **extensions** or **configuration overrides**.  
-> Contribute on [GitHub](https://github.com/your-banana-php-repo) to discuss feature flags!
+> Contribute on [GitHub](https://github.com/meyoramu/banana-php) to discuss feature flags!
