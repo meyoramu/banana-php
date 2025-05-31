@@ -4,7 +4,7 @@
 ![Version](https://img.shields.io/badge/version-1.0-blue) ![PHP](https://img.shields.io/badge/PHP-%3E%3D8.1-777BB4) ![License](https://img.shields.io/badge/license-MIT-success)
 
 ```mermaid
-graph TB
+graph TD
     A[composer.json] --> B[Core Dependencies]
     A --> C[Autoloading]
     A --> D[CLI Configuration]
