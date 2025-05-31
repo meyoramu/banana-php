@@ -3,20 +3,27 @@
 
 | Command            | Description                                                                 | Status          |
 |--------------------|-----------------------------------------------------------------------------|-----------------|
-| `make:model`       | Creates a new **Eloquent-style model** for database interactions.           | ✅ Available    |
-| `make:migration`   | Generates a **database migration** file for schema changes.                 | ✅ Available    |
+| `make:model`       | Create a new model class.                                                   | ✅ Available    |
+| `make:migration`   | Create a new migration file.                                                | ✅ Available    |
+| `make:middleware`  | Create a new middleware class.                                              | ✅ Available    |
+| `make:controller`  | Create a new controller class.                                              | ✅ Available    |
+| `migrate`          | Run the database migrations.                                                | ✅ Available    |
+| `serve`            | Start the development server.                                               | ✅ Available    |
+______________________________________________________________________________________________________________________
+
+
+
+
 | `make:seeder`      | *(RESTRICTED)* Creates a database seeder for dummy data.                    | ❌ Restricted   |
 | `make:factory`     | *(RESTRICTED)* Generates a model factory for testing/scaling data.          | ❌ Restricted   |
 | `make:request`     | *(RESTRICTED)* Creates a **form request** with validation logic.            | ❌ Restricted   |
 | `make:resource`    | *(RESTRICTED)* Generates an **API resource** (JSON transformation layer).   | ❌ Restricted   |
 | `make:view`        | *(RESTRICTED)* Scaffolds a **Blade-compatible view** template.              | ❌ Restricted   |
 | `make:auth`        | *(RESTRICTED)* Installs **authentication boilerplate** (e.g., login/logout).| ❌ Restricted   |
-| `make:middleware`  | Creates a **middleware** class for HTTP request filtering.                  | ✅ Available    |
 | `make:job`         | *(RESTRICTED)* Generates a **queueable job** for async tasks.               | ❌ Restricted   |
 | `make:listener`    | *(RESTRICTED)* Creates an **event listener** for subscribed events.         | ❌ Restricted   |
 | `make:event`       | *(RESTRICTED)* Generates a custom **event** class.                          | ❌ Restricted   |
 | `make:policy`      | *(RESTRICTED)* Creates an **authorization policy** (e.g., user permissions).| ❌ Restricted   |
-| `make:controller`  | Generates a **controller** for application logic/routing.                   | ✅ Available    |
 | `make:provider`    | *(RESTRICTED)* Creates a **service provider** for dependency injection.     | ❌ Restricted   |
 
 ### Key:  
