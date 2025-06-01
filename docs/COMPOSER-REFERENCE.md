@@ -198,6 +198,6 @@ pie
 - Quantum-resistant algorithms planned for v2.0
 - Hybrid encryption support
 
-[◄ Back to Main README](../README.md){ .md-button }  
-[▲ Back to Top](#){ .md-button .md-button--primary }
+[◄ Back to Main README]
+[▲ Back to Top]
 ```
