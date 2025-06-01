@@ -185,11 +185,14 @@ pie
 ```
 
 ### F. Energy Efficiency
+
 ```json
-"green-computing": {
-  "carbon-footprint": "2.3g CO2e/request",
-  "optimization-level": "A+",
-  "ecodesign-certified": true
+{
+  "green-computing": {
+    "carbon-footprint": "2.3g CO2e/request",
+    "optimization-level": "A+",
+    "ecodesign-certified": true
+  }
 }
 ```
 
