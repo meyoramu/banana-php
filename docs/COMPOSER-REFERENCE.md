@@ -202,5 +202,5 @@ pie
 - Hybrid encryption support
 
 [◄ Back to Main README](../README.md)
-[▲ Back to Top](OMPOSER-REFERENCE.md)
+[▲ Back to Top](COMPOSER-REFERENCE.md)
 ```
