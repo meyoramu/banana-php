@@ -7,46 +7,38 @@ use Banana\Foundation\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-// Set base path (now one level higher since we moved the file)
 define('BANANA_START', microtime(true));
 define('BASE_PATH', __DIR__);
 
-// Verify vendor autoload exists
+// Verify autoload exists
 if (!file_exists(__DIR__.'/vendor/autoload.php')) {
-    fwrite(STDERR, "Error: Run 'composer install' first to install dependencies.\n");
+    fwrite(STDERR, "Error: Run 'composer install' first.\n");
     exit(1);
 }
 
 require __DIR__.'/vendor/autoload.php';
 
-// Load environment variables
+// Optional .env loading
 if (file_exists(__DIR__.'/.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-    $dotenv->safeLoad();
+    if (!class_exists('Dotenv\Dotenv')) {
+        fwrite(STDERR, "Notice: Install vlucas/phpdotenv for .env support\n");
+    } else {
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv->safeLoad();
+    }
 }
 
-// Initialize application
 $app = new Application(BASE_PATH);
 
-// Bind console kernel
 $app->singleton(
     Banana\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
 
-// Bind exception handler
-$app->singleton(
-    Banana\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
-);
-
-// Run the console application
 $kernel = $app->make(Kernel::class);
 $status = $kernel->handle(
     $input = new ArgvInput(),
     new ConsoleOutput()
 );
-
-$kernel->terminate($input, $status);
 
 exit($status);
