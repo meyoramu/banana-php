@@ -9,6 +9,7 @@ banana-php/
 ├── .env
 ├── .gitignore
 ├── .htaccess
+├── banana
 ├── composer.json
 ├── composer.lock
 ├── phpunit.xml
