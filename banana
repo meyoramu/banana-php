@@ -1,16 +1,21 @@
 #!/usr/bin/env php
 <?php
+declare(strict_types=1);
+
+use BananaPHP\Console\Kernel;
+use BananaPHP\Foundation\Application;
+
 require __DIR__.'/vendor/autoload.php';
 
-use BananaPHP\Foundation\Application;
-use BananaPHP\Console\Kernel;
+// Initialize application
+$app = new Application(__DIR__);
 
-$app = new Application(dirname(__DIR__));
-
-$kernel = $app->make(Kernel::class);
-$status = $kernel->handle(
-    new Symfony\Component\Console\Input\ArgvInput,
-    new Symfony\Component\Console\Output\ConsoleOutput
+// Bind Kernel implementation
+$app->singleton(
+    'BananaPHP\Contracts\Console\Kernel',
+    'BananaPHP\Console\Kernel'
 );
 
-exit($status);
+// Get and run the kernel
+$kernel = $app->make('BananaPHP\Contracts\Console\Kernel');
+exit($kernel->handle());
