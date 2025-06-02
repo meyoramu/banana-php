@@ -76,6 +76,8 @@ banana-php/
 │   │   ├── AuthServiceProvider.php
 │   │   ├── DatabaseServiceProvider.php
 │   │   └── EventServiceProvider.php
+│   ├── Foundation/
+│   │   └── Application.php
 │   ├── Helpers/
 │   │   ├── StringHelper.php
 │   │   ├── ArrayHelper.php
