@@ -4,14 +4,6 @@ namespace BananaPHP\Console;
 use BananaPHP\Contracts\Console\Kernel as KernelContract;
 use BananaPHP\Foundation\Application;
 use Symfony\Component\Console\Application as ConsoleApplication;
-use App\Console\Commands\{
-    MakeController,
-    MakeModel,
-    MakeMiddleware,
-    MakeMigration,
-    MigrateCommand,
-    ServeCommand
-};
 
 class Kernel implements KernelContract
 {
@@ -32,34 +24,45 @@ class Kernel implements KernelContract
 
     private function registerCommands(): void
     {
-        $commands = [
-            MakeController::class,
-            MakeModel::class,
-            MakeMiddleware::class,
-            MakeMigration::class,
-            MigrateCommand::class,
-            ServeCommand::class
+        $commandMap = [
+            'make:controller' => \App\Console\Commands\MakeController::class,
+            'make:model' => \App\Console\Commands\MakeModel::class,
+            'make:middleware' => \App\Console\Commands\MakeMiddleware::class,
+            'make:migration' => \App\Console\Commands\MakeMigration::class,
+            'migrate' => \App\Console\Commands\MigrateCommand::class,
+            'serve' => \App\Console\Commands\ServeCommand::class
         ];
 
-        foreach ($commands as $command) {
-            $this->console->add($this->app->make($command));
+        foreach ($commandMap as $name => $class) {
+            try {
+                if (!class_exists($class)) {
+                    throw new \RuntimeException("Command class {$class} not found");
+                }
+                
+                $command = $this->app->make($class);
+                $this->console->add($command);
+                
+            } catch (\Exception $e) {
+                error_log("Command registration failed for {$name}: " . $e->getMessage());
+                // Continue with other commands even if one fails
+            }
         }
     }
 
     public static function postAutoloadDump(): void
     {
-        $consolePath = __DIR__.'/../../bin/banana';
+        $consolePath = __DIR__.'/../../banana';
         if (!file_exists($consolePath)) {
-            $stub = <<<'STUB'
+            file_put_contents($consolePath, <<<'STUB'
 #!/usr/bin/env php
 <?php
-require __DIR__.'/../vendor/autoload.php';
-require __DIR__.'/../bootstrap/app.php';
+require __DIR__.'/vendor/autoload.php';
 
-$kernel = new BananaPHP\Console\Kernel();
+$app = new BananaPHP\Foundation\Application(__DIR__);
+$kernel = $app->make(BananaPHP\Contracts\Console\Kernel::class);
 exit($kernel->handle());
-STUB;
-            file_put_contents($consolePath, $stub);
+STUB
+            );
             chmod($consolePath, 0755);
         }
     }
