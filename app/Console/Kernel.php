@@ -1,16 +1,22 @@
 <?php
-declare(strict_types=1);
-
 namespace BananaPHP\Console;
 
 use BananaPHP\Contracts\Console\Kernel as KernelContract;
 use BananaPHP\Foundation\Application;
 use Symfony\Component\Console\Application as ConsoleApplication;
+use App\Console\Commands\{
+    MakeController,
+    MakeModel,
+    MakeMiddleware,
+    MakeMigration,
+    MigrateCommand,
+    ServeCommand
+};
 
 class Kernel implements KernelContract
 {
-    protected ConsoleApplication $console;
-    protected Application $app;
+    private ConsoleApplication $console;
+    private Application $app;
 
     public function __construct(Application $app)
     {
@@ -24,14 +30,15 @@ class Kernel implements KernelContract
         return $this->console->run();
     }
 
-    protected function registerCommands(): void
+    private function registerCommands(): void
     {
         $commands = [
-            \BananaPHP\Console\Commands\MakeController::class,
-            \BananaPHP\Console\Commands\MakeModel::class,
-            \BananaPHP\Console\Commands\MakeMiddleware::class,
-            \BananaPHP\Console\Commands\MakeMigration::class,
-            \BananaPHP\Console\Commands\MigrateCommand::class,
+            MakeController::class,
+            MakeModel::class,
+            MakeMiddleware::class,
+            MakeMigration::class,
+            MigrateCommand::class,
+            ServeCommand::class
         ];
 
         foreach ($commands as $command) {
