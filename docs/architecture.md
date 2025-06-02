@@ -212,6 +212,8 @@ banana-php/
 │       └── roles.json
 ├── vendor/
 │   └── .gitkeep
+├── bin/
+│   └── banana
 ├── docs/
 │   ├── README.md
 │   ├── installation.md
