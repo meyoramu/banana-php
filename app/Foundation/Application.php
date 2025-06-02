@@ -47,7 +47,26 @@ class Application
 
         $dependencies = [];
         foreach ($constructor->getParameters() as $parameter) {
-            $dependency = $parameter->getType()->getName();
+            if (!$parameter->hasType()) {
+                if ($parameter->isDefaultValueAvailable()) {
+                    $dependencies[] = $parameter->getDefaultValue();
+                } else {
+                    throw new \RuntimeException("Cannot resolve parameter {$parameter->getName()} without type hint");
+                }
+                continue;
+            }
+
+            $type = $parameter->getType();
+            if ($type instanceof \ReflectionNamedType && $type->isBuiltin()) {
+                if ($parameter->isDefaultValueAvailable()) {
+                    $dependencies[] = $parameter->getDefaultValue();
+                } else {
+                    throw new \RuntimeException("Cannot resolve built-in type {$type->getName()} for parameter {$parameter->getName()}");
+                }
+                continue;
+            }
+
+            $dependency = $type->getName();
             $dependencies[] = $this->make($dependency);
         }
 
