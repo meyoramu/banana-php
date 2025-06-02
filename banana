@@ -2,20 +2,10 @@
 <?php
 declare(strict_types=1);
 
-use BananaPHP\Console\Kernel;
 use BananaPHP\Foundation\Application;
 
 require __DIR__.'/vendor/autoload.php';
 
-// Initialize application
 $app = new Application(__DIR__);
-
-// Bind Kernel implementation
-$app->singleton(
-    'BananaPHP\Contracts\Console\Kernel',
-    'BananaPHP\Console\Kernel'
-);
-
-// Get and run the kernel
 $kernel = $app->make('BananaPHP\Contracts\Console\Kernel');
 exit($kernel->handle());
