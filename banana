@@ -1,44 +1,16 @@
 #!/usr/bin/env php
 <?php
-declare(strict_types=1);
-
-use App\Console\Kernel;
-use Banana\Foundation\Application;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-
-define('BANANA_START', microtime(true));
-define('BASE_PATH', __DIR__);
-
-// Verify autoload exists
-if (!file_exists(__DIR__.'/vendor/autoload.php')) {
-    fwrite(STDERR, "Error: Run 'composer install' first.\n");
-    exit(1);
-}
-
 require __DIR__.'/vendor/autoload.php';
 
-// Optional .env loading
-if (file_exists(__DIR__.'/.env')) {
-    if (!class_exists('Dotenv\Dotenv')) {
-        fwrite(STDERR, "Notice: Install vlucas/phpdotenv for .env support\n");
-    } else {
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-        $dotenv->safeLoad();
-    }
-}
+use BananaPHP\Foundation\Application;
+use App\Console\Kernel;
 
-$app = new Application(BASE_PATH);
-
-$app->singleton(
-    Banana\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
-);
+$app = new Application(dirname(__DIR__));
 
 $kernel = $app->make(Kernel::class);
 $status = $kernel->handle(
-    $input = new ArgvInput(),
-    new ConsoleOutput()
+    new Symfony\Component\Console\Input\ArgvInput,
+    new Symfony\Component\Console\Output\ConsoleOutput
 );
 
 exit($status);
