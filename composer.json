@@ -33,18 +33,18 @@
       "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
-    "psr-4": {
-        "Banana\\": "framework/",
+      "psr-4": {
         "BananaPHP\\": "app/",
         "App\\": "app/"
-    },
-    "files": [
+      },
+      "files": [
+        "app/helpers.php",
         "app/Helpers/StringHelper.php",
         "app/Helpers/ArrayHelper.php",
         "app/Helpers/DateHelper.php",
         "app/Helpers/SecurityHelper.php"
-    ]
-},
+      ]
+    },
     "autoload-dev": {
       "psr-4": {
         "Tests\\": "tests/"
