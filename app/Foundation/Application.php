@@ -18,6 +18,8 @@ class Application
     public function singleton($abstract, $concrete = null)
     {
         // Basic singleton implementation
-        $this->bind($abstract, $concrete, true);
+        // Store the concrete implementation in a static property or registry
+        static $instances = [];
+        $instances[$abstract] = $concrete ?? $abstract;
     }
 }
