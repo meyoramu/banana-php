@@ -15,6 +15,7 @@ class ServeCommand extends Command
     protected function configure(): void
     {
         $this
+            ->setName(self::$defaultName)
             ->setDescription('Start the development server')
             ->addOption(
                 'port',
