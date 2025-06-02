@@ -3,7 +3,7 @@
 require __DIR__.'/vendor/autoload.php';
 
 use BananaPHP\Foundation\Application;
-use App\Console\Kernel;
+use BananaPHP\Console\Kernel;
 
 $app = new Application(dirname(__DIR__));
 
