@@ -25,12 +25,12 @@ class Kernel implements KernelContract
     private function registerCommands(): void
     {
         $commandMap = [
-            'make:controller' => \App\Console\Commands\MakeController::class,
-            'make:model' => \App\Console\Commands\MakeModel::class,
-            'make:middleware' => \App\Console\Commands\MakeMiddleware::class,
-            'make:migration' => \App\Console\Commands\MakeMigration::class,
-            'migrate' => \App\Console\Commands\MigrateCommand::class,
-            'serve' => \App\Console\Commands\ServeCommand::class
+            'make:controller' => \BananaPHP\Console\Commands\MakeController::class,
+            'make:model' => \BananaPHP\Console\Commands\MakeModel::class,
+            'make:middleware' => \BananaPHP\Console\Commands\MakeMiddleware::class,
+            'make:migration' => \BananaPHP\Console\Commands\MakeMigration::class,
+            'migrate' => \BananaPHP\Console\Commands\MigrateCommand::class,
+            'serve' => \BananaPHP\Console\Commands\ServeCommand::class
         ];
 
         foreach ($commandMap as $name => $class) {
