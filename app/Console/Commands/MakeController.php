@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+// namespace BananaPHP\Console\Commands;
 namespace App\Console\Commands;
 
 use Symfony\Component\Console\Command\Command;
